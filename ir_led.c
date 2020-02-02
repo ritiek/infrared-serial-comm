@@ -13,7 +13,7 @@
     * 400ms => transfer completed
 */
 
-int integer_digits_length(int number) {
+int number_digits_length(int number) {
     int digits = 0;
     while (number) {
         number /= 10;
@@ -22,13 +22,13 @@ int integer_digits_length(int number) {
     return digits;
 }
 
-int number_to_binary(int number) {
+int decimal_to_binary(int decimal) {
     int remainder;
     int multiplier = 1;
     int binary = 0;
-    while (number) {
-        remainder = number % 2;
-        number /= 2;
+    while (decimal) {
+        remainder = decimal % 2;
+        decimal /= 2;
         binary += remainder * multiplier;
         multiplier *= 10;
     }
@@ -41,7 +41,10 @@ int emit_signal(int pin, int duration) {
     digitalWrite(pin, LOW);
 }
 
-int power(int base, int n) {
+int positive_power(int base, int n) {
+    if (n < 0) {
+        return 1;
+    }
     int result = base;
     while (--n) {
         result *= base;
@@ -61,11 +64,11 @@ int emit_bit(int bit, int pin) {
     emit_signal(pin, 20);
 }
 
-int emit_data(int number, int pin) {
+int emit_data(int decimal, int pin) {
     int digit;
-    int binary = number_to_binary(number);
-    int length = integer_digits_length(binary);
-    int n_base = power(10, length-1);
+    int binary = decimal_to_binary(decimal);
+    int length = number_digits_length(binary);
+    int n_base = positive_power(10, length-1);
     do {
         digit = (binary / n_base) % 10;
         emit_bit(digit, pin);
@@ -81,7 +84,7 @@ int main() {
 
     int pin = 7;
     pinMode(pin, OUTPUT);
-    emit_data(4, pin);
+    emit_data('a', pin);
 
     // Signal a completed transfer session
     delay(400);
