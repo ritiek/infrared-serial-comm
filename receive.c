@@ -43,10 +43,10 @@ int binary_to_decimal(int binary) {
 }
 
 int receive_data(char string[], int pin) {
-	struct timeval last_signal;
-	struct timeval now;
+    struct timeval last_signal;
+    struct timeval now;
     int decimal;
-	float elapsed;
+    float elapsed;
 
     int value = 1;
     while (value) {
@@ -61,7 +61,6 @@ int receive_data(char string[], int pin) {
         if (value != value_old) {
             gettimeofday(&now, 0);
             elapsed = timedifference_msec(last_signal, now);
-            // printf("elapsed for below bit: %d\n", elapsed);
 
             if (elapsed > 200.0f) {
                 decimal = binary_to_decimal(binary);
