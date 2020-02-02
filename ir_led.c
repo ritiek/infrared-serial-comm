@@ -5,12 +5,12 @@
     start transmission with the 1st bit that is 1.
 
     gap to next bit:
-    * 100ms => 0
-    * 200ms => 1
-    * 300ms => character break
-    * 400ms => transfer completed
+    * 80ms => 0
+    * 120ms => 1
+    * 160ms => character break
+    * 200ms => transfer completed
 
-    The LED must be HIGH for 20ms for each signal
+    The LED must be HIGH for 30ms for each signal
 */
 
 int number_digits_length(int number) {
@@ -55,13 +55,13 @@ int positive_power(int base, int n) {
 int emit_bit(int bit, int pin) {
     switch (bit) {
         case 0:
-            delay(100);
+            delay(80);
             break;
         case 1:
-            delay(200);
+            delay(120);
             break;
     }
-    emit_signal(pin, 20);
+    emit_signal(pin, 30);
 }
 
 int emit_character(int decimal, int pin) {
@@ -81,7 +81,7 @@ int emit_string(char string[], int pin) {
     int i = 0;
     while (string[i]) {
         emit_character(string[i++], pin);
-        delay(300);
+        delay(160);
         emit_signal(pin, 20);
     }
 }
@@ -95,11 +95,11 @@ int main() {
     int pin = 7;
     pinMode(pin, OUTPUT);
 
-    char string[1000] = "Ritiek Malhotra";
+    char string[1000] = "They call me IR.";
     emit_string(string, pin);
 
     // Signal a completed transfer session
-    delay(400);
+    delay(200);
     emit_signal(pin, 20);
     printf("%s\n", string);
 

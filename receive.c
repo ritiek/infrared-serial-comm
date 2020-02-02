@@ -61,21 +61,22 @@ int receive_data(char string[], int pin) {
         if (value != value_old) {
             gettimeofday(&now, 0);
             elapsed = timedifference_msec(last_signal, now);
+            // printf("elapsed for below bit: %d\n", elapsed);
 
-            if (elapsed > 400.0f) {
+            if (elapsed > 200.0f) {
                 decimal = binary_to_decimal(binary);
                 printf("%c - %d\n", decimal, binary);
                 string[i++] = decimal;
                 break;
-            } else if (elapsed > 300.0f) {
+            } else if (elapsed > 160.0f) {
                 decimal = binary_to_decimal(binary);
                 printf("%c - %d\n", decimal, binary);
                 string[i++] = decimal;
                 binary = 0;
-            } else if (elapsed > 200.0f) {
+            } else if (elapsed > 120.0f) {
                 binary *= 10;
                 ++binary;
-            } else if (elapsed > 100.0f) {
+            } else if (elapsed > 80.0f) {
                 binary *= 10;
             }
 
