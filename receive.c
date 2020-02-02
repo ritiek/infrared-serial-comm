@@ -42,9 +42,10 @@ int binary_to_decimal(int binary) {
     return decimal;
 }
 
-int receive_character_binary(int pin) {
-	struct timeval last_bit;
+int receive_data(char string[], int pin) {
+	struct timeval last_signal;
 	struct timeval now;
+    int decimal;
 	float elapsed;
 
     int value = 1;
@@ -53,17 +54,24 @@ int receive_character_binary(int pin) {
     }
     int value_old = value;
     int binary = 1;
+    int i = 0;
 
-    gettimeofday(&last_bit, 0);
+    gettimeofday(&last_signal, 0);
     while (1) {
         if (value != value_old) {
             gettimeofday(&now, 0);
-            elapsed = timedifference_msec(last_bit, now);
+            elapsed = timedifference_msec(last_signal, now);
 
             if (elapsed > 400.0f) {
+                decimal = binary_to_decimal(binary);
+                printf("%c - %d\n", decimal, binary);
+                string[i++] = decimal;
                 break;
             } else if (elapsed > 300.0f) {
-                // character break
+                decimal = binary_to_decimal(binary);
+                printf("%c - %d\n", decimal, binary);
+                string[i++] = decimal;
+                binary = 0;
             } else if (elapsed > 200.0f) {
                 binary *= 10;
                 ++binary;
@@ -71,13 +79,13 @@ int receive_character_binary(int pin) {
                 binary *= 10;
             }
 
-            last_bit = now;
+            last_signal = now;
         }
         value_old = value;
         value = digitalRead(pin);
     }
 
-    return binary;
+    string[i] = '\0';
 }
 
 int main() {
@@ -89,9 +97,9 @@ int main() {
     int pin = 4;
     pinMode(pin, INPUT);
 
-    int binary = receive_character_binary(pin);
-    int decimal = binary_to_decimal(binary);
-    printf("%c\n", decimal);
+    char string[1000];
+    receive_data(string, pin);
+    printf("%s\n", string);
 
     return 0;
 }
