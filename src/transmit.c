@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <wiringPi.h>
 
+#include "util/util.h"
+
 /* Transfer Specification
     start transmission with the 1st bit that is 1.
 
@@ -14,43 +16,10 @@
     The LED must be HIGH for 30ms for each signal
 */
 
-int number_digits_length(int number) {
-    int digits = 0;
-    while (number) {
-        number /= 10;
-        ++digits;
-    }
-    return digits;
-}
-
-int decimal_to_binary(int decimal) {
-    int remainder;
-    int multiplier = 1;
-    int binary = 0;
-    while (decimal) {
-        remainder = decimal % 2;
-        decimal /= 2;
-        binary += remainder * multiplier;
-        multiplier *= 10;
-    }
-    return binary;
-}
-
 void emit_signal(int pin, int duration) {
     digitalWrite(pin, HIGH);
     delay(duration);
     digitalWrite(pin, LOW);
-}
-
-int positive_power(int base, int n) {
-    if (n < 0) {
-        return 1;
-    }
-    int result = base;
-    while (--n) {
-        result *= base;
-    }
-    return result;
 }
 
 void emit_bit(int bit, int pin) {
