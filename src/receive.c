@@ -89,8 +89,13 @@ void receive_data(char string[], int pin) {
 }
 
 int main(int argc, char *argv[]) {
+    if (argc == 1) {
+        fprintf(stderr, "Usage: %s <receiver-gpio-pin-number>", argv[0]);
+        return -1;
+    }
+
     if (wiringPiSetup() == -1) {
-        printf("setup wiringPi failed !\n");
+        fprintf(stderr, "setup wiringPi failed!\n");
         return 1;
     }
 
