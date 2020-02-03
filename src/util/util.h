@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H_
 
+// We need to include this since it contains
+// declaration for struct `timeval`.
 #include <sys/time.h>
 
 float timedifference_msec(struct timeval t0, struct timeval t1);
