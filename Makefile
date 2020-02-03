@@ -1,17 +1,17 @@
 ARMGNU ?= gcc
 ARGS ?= -Wall
 
-all : bin/transmit bin/receive
+all : bin/transmit-ir bin/receive-ir
 
 clean :
-	rm bin/transmit
-	rm bin/receive
+	rm bin/transmit-ir
+	rm bin/receive-ir
 	rm -r bin
 
-bin/transmit : src/transmit.c
+bin/transmit-ir : src/transmit.c
 	mkdir -p bin
-	$(ARMGNU) $(ARGS) -lwiringPi -o bin/transmit src/transmit.c
+	$(ARMGNU) $(ARGS) -lwiringPi -o bin/transmit-ir src/transmit.c
 
-bin/receive : src/receive.c
+bin/receive-ir : src/receive.c
 	mkdir -p bin
-	$(ARMGNU) $(ARGS) -lwiringPi -o bin/receive src/receive.c
+	$(ARMGNU) $(ARGS) -lwiringPi -o bin/receive-ir src/receive.c
