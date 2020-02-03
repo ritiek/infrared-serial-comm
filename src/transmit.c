@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <wiringPi.h>
 
 /* Transfer Specification
@@ -35,7 +36,7 @@ int decimal_to_binary(int decimal) {
     return binary;
 }
 
-int emit_signal(int pin, int duration) {
+void emit_signal(int pin, int duration) {
     digitalWrite(pin, HIGH);
     delay(duration);
     digitalWrite(pin, LOW);
@@ -52,7 +53,7 @@ int positive_power(int base, int n) {
     return result;
 }
 
-int emit_bit(int bit, int pin) {
+void emit_bit(int bit, int pin) {
     switch (bit) {
         case 0:
             delay(80);
@@ -64,7 +65,7 @@ int emit_bit(int bit, int pin) {
     emit_signal(pin, 30);
 }
 
-int emit_character(int decimal, int pin) {
+void emit_character(int decimal, int pin) {
     int digit;
     int binary = decimal_to_binary(decimal);
     printf("%c - %d\n", decimal, binary);
@@ -75,33 +76,42 @@ int emit_character(int decimal, int pin) {
         emit_bit(digit, pin);
     }
     while (n_base /= 10);
+    delay(160);
+    emit_signal(pin, 20);
 }
 
-int emit_string(char string[], int pin) {
+void emit_string(char string[], int pin) {
     int i = 0;
     while (string[i]) {
         emit_character(string[i++], pin);
-        delay(160);
-        emit_signal(pin, 20);
     }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     if (wiringPiSetup() == -1) {
         printf("setup wiringPi failed !\n");
         return 1;
     }
 
-    int pin = 7;
+    int pin = atoi(argv[1]);
     pinMode(pin, OUTPUT);
 
-    char string[1000] = "They call me IR.";
-    emit_string(string, pin);
+    if (argc > 2) {
+        for (int i=2; i<argc-1; i++) {
+            emit_string(argv[i], pin);
+            emit_character(' ', pin);
+        }
+        emit_string(argv[argc-1], pin);
+    } else {
+        char c;
+        while ((c = getchar()) != 255) {
+            emit_character(c, pin);
+        }
+    }
 
     // Signal a completed transfer session
     delay(200);
     emit_signal(pin, 20);
-    printf("%s\n", string);
 
     return 0;
 }

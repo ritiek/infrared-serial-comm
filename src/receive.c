@@ -1,7 +1,7 @@
-#include <wiringPi.h>
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 #include <sys/time.h>
+#include <wiringPi.h>
 
 float timedifference_msec(struct timeval t0, struct timeval t1)  {
     return (t1.tv_sec - t0.tv_sec) * 1000.0f + (t1.tv_usec - t0.tv_usec) / 1000.0f;
@@ -42,7 +42,7 @@ int binary_to_decimal(int binary) {
     return decimal;
 }
 
-int receive_data(char string[], int pin) {
+void receive_data(char string[], int pin) {
     struct timeval last_signal;
     struct timeval now;
     int decimal;
@@ -88,13 +88,13 @@ int receive_data(char string[], int pin) {
     string[i] = '\0';
 }
 
-int main() {
+int main(int argc, char *argv[]) {
     if (wiringPiSetup() == -1) {
         printf("setup wiringPi failed !\n");
         return 1;
     }
 
-    int pin = 4;
+    int pin = atoi(argv[1]);
     pinMode(pin, INPUT);
 
     char string[1000];
