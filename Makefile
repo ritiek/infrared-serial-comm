@@ -1,17 +1,35 @@
 ARMGNU ?= gcc
 ARGS ?= -Wall
+OPTIMIZATIONS ?= -O2
 
-all : bin/transmit-ir bin/receive-ir
+SOURCE = src
+TESTS = tests
+BIN = bin
+
+all : $(BIN)/transmit-ir $(BIN)/receive-ir
 
 clean :
-	rm -f bin/transmit-ir
-	rm -f bin/receive-ir
-	rm -rf bin
+	rm -f $(BIN)/transmit-ir
+	rm -f $(BIN)/receive-ir
+	rm -f $(TESTS)/$(BIN)/test_runner
 
-bin/transmit-ir : src/transmit.c
-	mkdir -p bin
-	$(ARMGNU) $(ARGS) -lwiringPi -o bin/transmit-ir src/transmit.c src/util/util.c
+test :
+	mkdir -p $(TESTS)/$(BIN)
+	$(ARMGNU) $(ARGS) -o $(TESTS)/$(BIN)/test_runner \
+		$(TESTS)/test_runner.c \
+		$(SOURCE)/util/util.c \
+		$(TESTS)/util/test_util.c
 
-bin/receive-ir : src/receive.c
-	mkdir -p bin
-	$(ARMGNU) $(ARGS) -lwiringPi -o bin/receive-ir src/receive.c src/util/util.c
+	./$(TESTS)/$(BIN)/test_runner
+
+$(BIN)/transmit-ir : $(SOURCE)/transmit.c
+	mkdir -p $(BIN)
+	$(ARMGNU) $(ARGS) $(OPTIMIZATIONS) -lwiringPi -o $(BIN)/transmit-ir \
+		$(SOURCE)/transmit.c \
+		$(SOURCE)/util/util.c
+
+$(BIN)/receive-ir : $(SOURCE)/receive.c
+	mkdir -p $(BIN)
+	$(ARMGNU) $(ARGS) $(OPTIMIZATIONS) -lwiringPi -o $(BIN)/receive-ir \
+		$(SOURCE)/receive.c \
+		$(SOURCE)/util/util.c
