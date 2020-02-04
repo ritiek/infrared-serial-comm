@@ -1,10 +1,16 @@
 #include <stdio.h>
 #include <assert.h>
-#include "../../src/util/util.h"
 #include "test_util.h"
 
 void test_timedifference_msec() {
-    // assert(timedifference_msec());
+    struct timeval past;
+    struct timeval now;
+    gettimeofday(&past, 0);
+    delay(150);
+    gettimeofday(&now, 0);
+    float difference = timedifference_msec(past, now);
+    printf("%f\n", difference);
+    assert(timedifference_msec(past, now) == 0);
 }
 
 void test_binary_to_decimal() {
