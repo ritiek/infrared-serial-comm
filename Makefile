@@ -4,9 +4,9 @@ ARGS ?= -Wall
 all : bin/transmit-ir bin/receive-ir
 
 clean :
-	rm bin/transmit-ir
-	rm bin/receive-ir
-	rm -r bin
+	rm -f bin/transmit-ir
+	rm -f bin/receive-ir
+	rm -rf bin
 
 bin/transmit-ir : src/transmit.c
 	mkdir -p bin
