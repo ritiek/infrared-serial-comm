@@ -65,6 +65,12 @@ D - 1000100
 Hello. :D
 ```
 
+## Running tests
+
+```
+$ make test
+```
+
 ## What else could be done?
 
 There are currently no checks implemented for detecting or fixing errors. This would be
