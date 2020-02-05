@@ -77,7 +77,7 @@ There are currently no checks implemented for detecting or fixing errors. This w
 nice to have, since I've noticed bits getting switched and similar bad things on the
 receiver end when transmitting long strings.
 
-The current transmit rate averages at about 0.9 bytes/sec.
+The current transfer rate averages at about 1.5 bytes/sec.
 
 ## License
 
