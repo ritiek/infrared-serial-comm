@@ -25,9 +25,6 @@ void receive_data(char string[], unsigned int pin) {
             elapsed = timedifference_msec(last_signal, now);
 
             if (elapsed > TRANSFERBREAK) {
-                decimal = binary_to_decimal(binary);
-                printf("%c - %d\n", decimal, binary);
-                string[i++] = decimal;
                 break;
             } else if (elapsed > CHARBREAK) {
                 decimal = binary_to_decimal(binary);
