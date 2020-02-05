@@ -1,6 +1,12 @@
 #include "util.h"
 #include <unistd.h>
 
+const int LEDHIGH = 20;
+const int BIT0BREAK = 50;
+const int BIT1BREAK = 70;
+const int CHARBREAK = 90;
+const int TRANSFERBREAK = 110;
+
 void ms_sleep(int ms) {
     usleep(ms * 1000);
 }
