@@ -19,6 +19,12 @@
 //!  The LED must be HIGH for 30ms for each signal  //!
 //!///////////////////////////////////////////////////!
 
+#define LEDHIGH 30000
+#define BIT0BREAK 80000
+#define BIT1BREAK 120000
+#define CHARBREAK 160000
+#define TRANSFERBREAK 200000
+
 void emit_signal(int pin, useconds_t duration) {
     /// Sets the GPIO pin to HIGH for given duration.
     digitalWrite(pin, HIGH);
@@ -32,13 +38,13 @@ void emit_bit(int bit, int pin) {
     /// can identify the bit (0 or 1).
     switch (bit) {
         case 0:
-            usleep(80000);
+            usleep(BIT0BREAK);
             break;
         case 1:
-            usleep(120000);
+            usleep(BIT1BREAK);
             break;
     }
-    emit_signal(pin, 30000);
+    emit_signal(pin, LEDHIGH);
 }
 
 void emit_character(int decimal, int pin) {
@@ -56,8 +62,8 @@ void emit_character(int decimal, int pin) {
     while (n_base /= 10);
     // Signal a character break so the receiver
     // can attempt to parse the received bits
-    usleep(160000);
-    emit_signal(pin, 20000);
+    usleep(CHARBREAK);
+    emit_signal(pin, LEDHIGH);
 }
 
 void emit_string(char string[], int pin) {
@@ -99,8 +105,8 @@ int main(int argc, char *argv[]) {
     }
 
     // Signal a completed transmission session
-    usleep(200000);
-    emit_signal(pin, 30000);
+    usleep(TRANSFERBREAK);
+    emit_signal(pin, LEDHIGH);
 
     return 0;
 }
