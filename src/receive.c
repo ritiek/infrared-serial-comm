@@ -4,19 +4,19 @@
 
 #include "util/util.h"
 
-void receive_data(char string[], int pin) {
+void receive_data(char string[], unsigned int pin) {
     struct timeval last_signal;
     struct timeval now;
-    int decimal;
+    unsigned int decimal;
     float elapsed;
 
-    int value = 1;
+    unsigned int value = 1;
     while (value) {
         value = digitalRead(pin);
     }
-    int value_old = value;
-    int binary = 1;
-    int i = 0;
+    unsigned int value_old = value;
+    unsigned int binary = 1;
+    unsigned int i = 0;
 
     gettimeofday(&last_signal, 0);
     while (1) {
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int pin = atoi(argv[1]);
+    unsigned int pin = atoi(argv[1]);
     pinMode(pin, INPUT);
 
     char string[1000];

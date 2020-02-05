@@ -18,14 +18,14 @@
 //!  The LED must be HIGH for 30ms for each signal  //!
 //!///////////////////////////////////////////////////!
 
-void emit_signal(int pin, int duration) {
+void emit_signal(unsigned int pin, unsigned int duration) {
     /// Sets the GPIO pin to HIGH for given duration.
     digitalWrite(pin, HIGH);
     ms_sleep(duration);
     digitalWrite(pin, LOW);
 }
 
-void emit_bit(int bit, int pin) {
+void emit_bit(unsigned int bit, unsigned int pin) {
     /// Waits an appropriate time before sending
     /// a signal so that the receiver on other side
     /// can identify the bit (0 or 1).
@@ -40,14 +40,14 @@ void emit_bit(int bit, int pin) {
     emit_signal(pin, LEDHIGH);
 }
 
-void emit_character(int decimal, int pin) {
+void emit_character(unsigned int decimal, unsigned int pin) {
     /// Takes in an ASCII decimal and transmits
     /// it as binary, bit-by-bit through the GPIO pin.
-    int digit;
-    int binary = decimal_to_binary(decimal);
+    unsigned int digit;
+    unsigned int binary = decimal_to_binary(decimal);
     printf("%c - %d\n", decimal, binary);
-    int length = number_digits_length(binary);
-    int n_base = positive_power(10, length-1);
+    unsigned int length = number_digits_length(binary);
+    unsigned int n_base = positive_power(10, length-1);
     do {
         digit = (binary / n_base) % 10;
         emit_bit(digit, pin);
@@ -59,10 +59,10 @@ void emit_character(int decimal, int pin) {
     emit_signal(pin, LEDHIGH);
 }
 
-void emit_string(char string[], int pin) {
+void emit_string(char string[], unsigned int pin) {
     /// Takes in a character array and transmits
     /// each character through the GPIO pin.
-    int i = 0;
+    unsigned int i = 0;
     while (string[i]) {
         emit_character(string[i++], pin);
     }
@@ -79,12 +79,12 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    int pin = atoi(argv[1]);
+    unsigned int pin = atoi(argv[1]);
     pinMode(pin, OUTPUT);
 
     if (argc > 2) {
         // Read input from command-line arguments
-        for (int i=2; i<argc-1; i++) {
+        for (unsigned int i=2; i<argc-1; i++) {
             emit_string(argv[i], pin);
             emit_character(' ', pin);
         }
