@@ -1,4 +1,9 @@
 #include "util.h"
+#include <unistd.h>
+
+void ms_sleep(int ms) {
+    usleep(ms * 1000);
+}
 
 float timedifference_msec(struct timeval t0, struct timeval t1)  {
     /// Returns the difference between 2 timevalues in milliseconds.

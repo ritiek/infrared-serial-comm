@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <wiringPi.h>
-#include <unistd.h>
 
 #include "util/util.h"
 
@@ -19,16 +18,10 @@
 //!  The LED must be HIGH for 30ms for each signal  //!
 //!///////////////////////////////////////////////////!
 
-#define LEDHIGH 30000
-#define BIT0BREAK 80000
-#define BIT1BREAK 120000
-#define CHARBREAK 160000
-#define TRANSFERBREAK 200000
-
-void emit_signal(int pin, useconds_t duration) {
+void emit_signal(int pin, int duration) {
     /// Sets the GPIO pin to HIGH for given duration.
     digitalWrite(pin, HIGH);
-    usleep(duration);
+    ms_sleep(duration);
     digitalWrite(pin, LOW);
 }
 
@@ -38,10 +31,10 @@ void emit_bit(int bit, int pin) {
     /// can identify the bit (0 or 1).
     switch (bit) {
         case 0:
-            usleep(BIT0BREAK);
+            ms_sleep(BIT0BREAK);
             break;
         case 1:
-            usleep(BIT1BREAK);
+            ms_sleep(BIT1BREAK);
             break;
     }
     emit_signal(pin, LEDHIGH);
@@ -62,7 +55,7 @@ void emit_character(int decimal, int pin) {
     while (n_base /= 10);
     // Signal a character break so the receiver
     // can attempt to parse the received bits
-    usleep(CHARBREAK);
+    ms_sleep(CHARBREAK);
     emit_signal(pin, LEDHIGH);
 }
 
@@ -105,7 +98,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Signal a completed transmission session
-    usleep(TRANSFERBREAK);
+    ms_sleep(TRANSFERBREAK);
     emit_signal(pin, LEDHIGH);
 
     return 0;

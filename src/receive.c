@@ -24,20 +24,20 @@ void receive_data(char string[], int pin) {
             gettimeofday(&now, 0);
             elapsed = timedifference_msec(last_signal, now);
 
-            if (elapsed > 200.0f) {
+            if (elapsed > TRANSFERBREAK) {
                 decimal = binary_to_decimal(binary);
                 printf("%c - %d\n", decimal, binary);
                 string[i++] = decimal;
                 break;
-            } else if (elapsed > 160.0f) {
+            } else if (elapsed > CHARBREAK) {
                 decimal = binary_to_decimal(binary);
                 printf("%c - %d\n", decimal, binary);
                 string[i++] = decimal;
                 binary = 0;
-            } else if (elapsed > 120.0f) {
+            } else if (elapsed > BIT1BREAK) {
                 binary *= 10;
                 ++binary;
-            } else if (elapsed > 80.0f) {
+            } else if (elapsed > BIT0BREAK) {
                 binary *= 10;
             }
 
