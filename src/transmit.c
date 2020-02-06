@@ -4,20 +4,6 @@
 
 #include "util/util.h"
 
-//!///////////////////////////////////////////////////!
-//!          **TRANSMISSION SPECIFICATION**         //!
-//!                                                 //!
-//!  Start transmission with the 1st bit that is 1. //!
-//!                                                 //!
-//!  Gap to next bit:                               //!
-//!  - 80ms => 0                                    //!
-//!  - 120ms => 1                                   //!
-//!  - 160ms => character break                     //!
-//!  - 200ms => transfer completed                  //!
-//!                                                 //!
-//!  The LED must be HIGH for 30ms for each signal  //!
-//!///////////////////////////////////////////////////!
-
 void emit_signal(unsigned int pin, unsigned int duration) {
     /// Sets the GPIO pin to HIGH for given duration.
     digitalWrite(pin, HIGH);
