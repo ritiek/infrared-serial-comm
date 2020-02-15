@@ -77,6 +77,9 @@ There are currently no checks implemented for detecting or fixing errors. This w
 nice to have, since I've noticed bits getting switched and similar bad things on the
 receiver end when transmitting long strings.
 
+Although, I have no idea how we'd achieve something like this since the communication
+is unidirectional.
+
 The current transfer rate averages at about 1.5 bytes/sec.
 
 ## License
