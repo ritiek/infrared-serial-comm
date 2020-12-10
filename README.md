@@ -76,7 +76,8 @@ $ make test
 I've found that the current setup works fine for me on my Raspberry Pi 2. However,
 it is possible that you are using an older Raspberry Pi with lower specs and may
 require more time in decoding the signal. It could also be that other processes
-are eating more CPU time.
+are eating more CPU time. I think a real-time kernel would give more consistent
+and accurate results but I can't say for sure as I haven't tried it.
 
 One thing that might help in such cases would be to try increasing the delay gaps
 in [src/util/util.c#L5-L8](https://github.com/ritiek/infrared-serial-communication/blob/852e830d68a40974841226ee126080b4eb5522bd/src/util/util.c#L5-L8).
